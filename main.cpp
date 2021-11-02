@@ -1,7 +1,7 @@
 #include "Lrucashe.h"
 
  int main(){
-	 LRUcashe a(3);
+	 LRUcashe<std::string> a(3);
 
 
 	 a.find_and_add1("AA");

@@ -1,26 +1,27 @@
 #include "Lrucashe.h"
 using namespace std;
+template <typename T>
 
 
-LRUcashe::LRUcashe(size_t size1) {
+LRUcashe<T>::LRUcashe(size_t size1) {
 	size = size1;
 	count = 0;
 
 }
 
-LRUcashe::~LRUcashe() {
+template <typename T> LRUcashe<T>::~LRUcashe() {
 	qmap.clear();
 	qlist.clear();
 }
 
-void LRUcashe::add_to(const string& address) {
+template <typename T> void LRUcashe<T>::add_to(const T& address) {
 	qlist.push_front(address);
-	qmap.insert(pair<string, int>(address, 1));
+	qmap.insert(pair<T, int>(address, 1));
 
 }
 
-void LRUcashe::change_pos(const string& address) {
-	list<string>::iterator it;
+template <typename T> void LRUcashe<T>::change_pos(const T& address) {
+	typename list<T>::iterator it;
 	for (it = qlist.begin(); it != qlist.end(); ++it) {
 		if (*it == address) {
 			qlist.erase(it);
@@ -30,9 +31,9 @@ void LRUcashe::change_pos(const string& address) {
 	qlist.push_front(address);
 }
 
-void LRUcashe::delete_check() {
+template <typename T> void LRUcashe<T>::delete_check() {
 	if (count == size) {
-		list<string>::iterator it=qlist.end();
+		typename  list<T>::iterator it=qlist.end();
 		--it;
 		qmap.erase(qmap.find(*it));
 		qlist.pop_back();
@@ -40,7 +41,7 @@ void LRUcashe::delete_check() {
 	}
 }
 
-bool LRUcashe::find_and_add1(const string& address) {
+template <typename T> bool LRUcashe<T>::find_and_add1(const T& address) {
 
     auto result = this->qmap.find(address);
 
@@ -58,9 +59,12 @@ bool LRUcashe::find_and_add1(const string& address) {
 	return true;
 }
 
-ostream& operator << (ostream& os, LRUcashe& a) {
-	for (string str : a.qlist) {
+template <typename T> ostream& operator << (ostream& os, LRUcashe<T>& a) {
+	for (T str : a.qlist) {
 		os << str << '\n';
 	}
 	return os;
 }
+
+
+
